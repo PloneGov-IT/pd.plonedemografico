@@ -11,6 +11,8 @@ class AddForm(BaseForm):
     """
     banned_redirect_keys = (
         '_authenticator',
+        'ajax_include_head',
+        'ajax_load',
         'form..hashkey',
         'form.actions.book',
         'form.captcha',
