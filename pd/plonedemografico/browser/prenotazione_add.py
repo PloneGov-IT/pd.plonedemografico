@@ -27,7 +27,6 @@ class AddForm(BaseForm):
         params = self.request.form.copy()
         for key in self.banned_redirect_keys:
             params.pop(key, None)
-        import pdb;pdb.set_trace()
         target = 'http://example.com/?%s' % urlencode(params)
         return self.request.response.redirect(target)
 
