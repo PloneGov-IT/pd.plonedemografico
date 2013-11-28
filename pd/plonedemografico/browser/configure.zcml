@@ -5,4 +5,12 @@
 
   <include package="plone.app.contentmenu" />
 
+<browser:page
+    for="rg.prenotazioni.interfaces.IPrenotazioniFolder"
+    name="prenotazione_add"
+    layer=".interfaces.IPDPlonedemograficoLayer"
+    class=".prenotazione_add.AddForm"
+    permission="zope2.View"
+  />
+
 </configure>
