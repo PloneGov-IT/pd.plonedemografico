@@ -2,6 +2,7 @@
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from pd.prenotazioni.browser.prenotazione_add import AddForm as BaseForm
 from plone.app.form.validators import null_validator
+from plone.memoize.view import memoize
 from rg.prenotazioni import prenotazioniMessageFactory as _
 from urllib import urlencode
 from zope.formlib.form import action, setUpWidgets
@@ -21,6 +22,16 @@ class AddForm(BaseForm):
         'form.captcha',
         'form.tipology-empty-marker',
     )
+
+    @property
+    @memoize
+    def form_fields(self):
+        '''
+        The fields for this form
+        '''
+        ff = super(AddForm, self).form_fields
+        ff.omit('captcha')
+        return ff
 
     def setUpWidgets(self, ignore_request=False):
         '''
