@@ -30,7 +30,7 @@ class AddForm(BaseForm):
         The fields for this form
         '''
         ff = super(AddForm, self).form_fields
-        ff.omit('captcha')
+        ff = ff.omit('captcha')
         return ff
 
     def setUpWidgets(self, ignore_request=False):
