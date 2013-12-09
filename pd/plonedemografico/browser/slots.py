@@ -26,7 +26,10 @@ class View(BrowserView):
                                             self.context,
                                             self.request)
         booking_date = self.request.form.get('booking_date',
-                                             DateTime()).asdatetime()
-        slots = prenotazioni.get_free_slots(booking_date)
+                                             DateTime()).asdatetime().date()
+        booking_urls = prenotazioni.get_all_booking_urls(booking_date)
+        url_lists = []
+        for key in booking_urls:
+            url_lists.append([url['url'] for url in booking_urls[key]])
         self.request.response.setHeader('Content-Type', 'application/json')
-        return dumps(slots, cls=SlotAwareEncoder)
+        return dumps(url_lists, cls=SlotAwareEncoder)
