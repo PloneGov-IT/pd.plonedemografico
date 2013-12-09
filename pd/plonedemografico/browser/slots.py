@@ -3,6 +3,7 @@ from DateTime import DateTime
 from Products.Five.browser import BrowserView
 from json import dumps, JSONEncoder
 from plone import api
+from plone.memoize.view import memoize
 from rg.prenotazioni.adapters.slot import BaseSlot
 
 
@@ -18,18 +19,39 @@ class SlotAwareEncoder(JSONEncoder):
 class View(BrowserView):
     ''' Return tipologies jsonified
     '''
+    @property
+    @memoize
+    def prenotazioni(self):
+        ''' The prenotazioni_context_state view
+        '''
+        return api.content.get_view('prenotazioni_context_state',
+                                    self.context,
+                                    self.request)
+
+    @property
+    @memoize
+    def booking_date(self):
+        ''' Compute the booking date as passed in the request
+        '''
+        booking_date = self.request.form.get('booking_date', DateTime())
+        if not booking_date:
+            return []
+        if isinstance(booking_date, basestring):
+            booking_date = DateTime(booking_date)
+        return booking_date.asdatetime().date()
+
+    def get_url_lists(self):
+        ''' Return the urls for this booking date
+        '''
+        day = self.booking_date
+        booking_urls = (self.prenotazioni.get_all_booking_urls(day))
+        url_lists = []
+        for key in booking_urls:
+            url_lists.append([url['url'] for url in booking_urls[key]])
 
     def __call__(self):
         '''
         '''
-        prenotazioni = api.content.get_view('prenotazioni_context_state',
-                                            self.context,
-                                            self.request)
-        booking_date = self.request.form.get('booking_date',
-                                             DateTime()).asdatetime().date()
-        booking_urls = prenotazioni.get_all_booking_urls(booking_date)
-        url_lists = []
-        for key in booking_urls:
-            url_lists.append([url['url'] for url in booking_urls[key]])
         self.request.response.setHeader('Content-Type', 'application/json')
+        url_lists = self.get_url_lists()
         return dumps(url_lists, cls=SlotAwareEncoder)
