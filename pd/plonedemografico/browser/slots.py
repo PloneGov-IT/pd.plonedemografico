@@ -48,6 +48,7 @@ class View(BrowserView):
         url_lists = []
         for key in booking_urls:
             url_lists.append([url['url'] for url in booking_urls[key]])
+        return url_lists
 
     def __call__(self):
         '''
