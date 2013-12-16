@@ -30,7 +30,7 @@ class AddForm(BaseForm):
         'ajax_load',
         'form..hashkey',
         'form.actions.book',
-        'form.addview',
+        'form.add_view',
         'form.backurl',
         'form.captcha',
         'form.tipology-empty-marker',
