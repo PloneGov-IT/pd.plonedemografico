@@ -30,6 +30,8 @@ class AddForm(BaseForm):
         'ajax_load',
         'form..hashkey',
         'form.actions.book',
+        'form.addview',
+        'form.backurl',
         'form.captcha',
         'form.tipology-empty-marker',
     )
@@ -70,11 +72,14 @@ class AddForm(BaseForm):
         This URL is passed as form.backurl
         if no form.backurl is given use http://example.com
         '''
-        form = self.request.form.copy()
-        for key in self.banned_redirect_keys:
-            form.pop(key, None)
-        backurl = self.request.form.get('form.backurl',
-                                        'http://example.com/')
+        form = {}
+        for key in self.request.form.copy():
+            if not key in self.banned_redirect_keys:
+                value = self.request.form[key]
+                if isinstance(value, unicode):
+                    value = value.encode('utf8')
+                form[key] = value
+        backurl = self.request.form.get('form.backurl', 'http://example.com/')
         return '%s?%s' % (backurl, urlencode(form))
 
     @action(_('action_book', u'Book'), name=u'book')

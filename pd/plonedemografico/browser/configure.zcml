@@ -21,6 +21,15 @@
     permission="zope2.View"
   />
 
+  <!-- dedicated context_state_view -->
+  <browser:page
+    for="rg.prenotazioni.interfaces.IPrenotazioniFolder"
+    name="prenotazioni_context_state"
+    class=".prenotazioni_context_state.PrenotazioniContextState"
+    layer=".interfaces.IPDPlonedemograficoLayer"
+    permission="zope2.View"
+  />
+
   <browser:page
     for="rg.prenotazioni.interfaces.IPrenotazioniFolder"
     name="slots.json"
