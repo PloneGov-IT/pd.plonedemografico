@@ -92,8 +92,10 @@ i18n:domain="plone">
                                                                class string:field ${fieldname_class};
                                                                data-fieldname widget/name;">
                                             <div class="widget"
+                                                 tal:condition="python:widget.name not in ['backurl', 'add_view']"
                                                  tal:content="widget/getInputValue"
-                                                 tal:on-error="nothing">Value has read by the request</div>
+                                                 tal:on-error="nothing"
+                                                 >Value as read by the request</div>
                                           </div>
                                     </div>
                                 </tal:block>

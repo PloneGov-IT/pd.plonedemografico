@@ -7,9 +7,9 @@
 
   <browser:page
     for="rg.prenotazioni.interfaces.IPrenotazioniFolder"
-    name="prenotazione_add"
+    name="prenotazione_add_ro"
     layer=".interfaces.IPDPlonedemograficoLayer"
-    class=".prenotazione_add.AddForm"
+    class=".prenotazione_add_ro.AddForm"
     permission="zope2.View"
   />
 

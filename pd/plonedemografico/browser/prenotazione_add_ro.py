@@ -1,17 +1,28 @@
 # -*- coding: utf-8 -*-
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from pd.prenotazioni.browser.prenotazione_add import AddForm as BaseForm
+from rg.prenotazioni.browser.prenotazione_add import IAddForm as IBaseForm
 from plone.app.form.validators import null_validator
 from plone.memoize.view import memoize
 from rg.prenotazioni import prenotazioniMessageFactory as _
 from urllib import urlencode
-from zope.formlib.form import action, setUpWidgets
+from zope.formlib.form import action, setUpWidgets, FormFields
+from zope.interface import implements
+from zope.schema import TextLine
+
+
+class IAddForm(IBaseForm):
+    ''' Customize fields for this add form
+    '''
+    add_view = TextLine(default=u'prenotazioni_add_ro')
+    backurl = TextLine(default=u'http://example.com')
 
 
 class AddForm(BaseForm):
     """ Customize pd.prenotazioni add form to redirect to another page
     """
-    template = ViewPageTemplateFile('prenotazione_add.pt')
+    implements(IAddForm)
+    template = ViewPageTemplateFile('prenotazione_add_ro.pt')
 
     banned_redirect_keys = (
         '_authenticator',
@@ -29,7 +40,7 @@ class AddForm(BaseForm):
         '''
         The fields for this form
         '''
-        ff = super(AddForm, self).form_fields
+        ff = FormFields(IAddForm)
         ff = ff.omit('captcha')
         return ff
 
@@ -51,6 +62,21 @@ class AddForm(BaseForm):
             form=self, adapters=self.adapters, ignore_request=ignore_request,
             data=data)
 
+    @property
+    @memoize
+    def backurl(self):
+        ''' We need an URL to redirect to
+
+        This URL is passed as form.backurl
+        if no form.backurl is given use http://example.com
+        '''
+        form = self.request.form.copy()
+        for key in self.banned_redirect_keys:
+            form.pop(key, None)
+        backurl = self.request.form.get('form.backurl',
+                                        'http://example.com/')
+        return '%s?%s' % (backurl, urlencode(form))
+
     @action(_('action_book', u'Book'), name=u'book')
     def action_book(self, action, data):
         '''
@@ -58,16 +84,13 @@ class AddForm(BaseForm):
         '''
         obj = self.do_book(data)
         obj  # pyflakes
-        params = self.request.form.copy()
-        for key in self.banned_redirect_keys:
-            params.pop(key, None)
-        target = 'http://example.com/?%s' % urlencode(params)
-        return self.request.response.redirect(target)
+        return self.request.response.redirect(self.backurl)
 
     @action(_(u"action_cancel", default=u"Cancel"), validator=null_validator, name=u'cancel')  # noqa
     def action_cancel(self, action, data):
         '''
         Cancel
         '''
-        target = self.back_to_booking_url
+        qs = self.prenotazioni.remembered_params
+        target = "%s?%s" % (self.back_to_booking_url, urlencode(qs))
         return self.request.response.redirect(target)
