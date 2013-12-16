@@ -19,5 +19,5 @@ class PrenotazioniContextState(BaseView):
             add_view = BaseView.add_view
         elif isinstance(add_view, list):
             add_view = add_view[0]
-            self.request.form['form.add_view'] = add_view
+            self.request['form.add_view'] = add_view
         return add_view
