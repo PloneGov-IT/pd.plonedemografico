@@ -17,4 +17,6 @@ class PrenotazioniContextState(BaseView):
         add_view = self.request.form.get('form.add_view', '')
         if not add_view:
             add_view = BaseView.add_view
+        elif isinstance(add_view, list):
+            add_view = add_view[0]
         return add_view
