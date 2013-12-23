@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from pd.prenotazioni.browser.prenotazione_add import AddForm as BaseForm
+from pd.prenotazioni.browser.prenotazione_add import (AddForm as BaseForm,
+                                                      check_mobile_number)
 from rg.prenotazioni.browser.prenotazione_add import IAddForm as IBaseForm
 from plone.app.form.validators import null_validator
 from plone.memoize.view import memoize
@@ -44,6 +45,8 @@ class AddForm(BaseForm):
         '''
         ff = FormFields(IAddForm)
         ff = ff.omit('captcha')
+        ff['email'].field.required = False
+        ff['mobile'].field.constraint = check_mobile_number
         return ff
 
     def setUpWidgets(self, ignore_request=False):
@@ -88,7 +91,7 @@ class AddForm(BaseForm):
         Book this resource
         '''
         obj = self.do_book(data)
-        obj  # pyflakes
+        self.request.form['form.gate'] = obj.getGate()
         return self.request.response.redirect(self.backurl)
 
     @action(_(u"action_cancel", default=u"Cancel"), validator=null_validator, name=u'cancel')  # noqa
