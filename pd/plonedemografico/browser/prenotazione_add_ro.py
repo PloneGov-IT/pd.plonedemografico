@@ -39,6 +39,13 @@ class AddForm(BaseForm):
 
     @property
     @memoize
+    def label(self):
+        ''' Override parents label
+        '''
+        return u''
+
+    @property
+    @memoize
     def form_fields(self):
         '''
         The fields for this form
