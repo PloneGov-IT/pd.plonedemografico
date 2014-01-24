@@ -57,16 +57,10 @@ class View(BrowserView):
         tipology = self.request.form.get('form.tipology', '')
         prenotazioni = self.prenotazioni
         duration = prenotazioni.get_tipology_duration(tipology) * 60
-        booking_urls = (prenotazioni.get_all_booking_urls(
-            day, slot_min_size=duration)
-        )
-        url_list = set([])
+        booking_urls = prenotazioni.get_all_booking_urls(day, slot_min_size=duration)  # noqa
         additional_parameters = self.additional_parameters
-        for key in booking_urls:
-            for url in booking_urls[key]:
-                url = "%s&%s" % (url['url'], additional_parameters)
-                url_list.add(url)
-        return sorted(url_list)
+        return ["%s&%s" % (url['url'], additional_parameters)
+                for url in booking_urls]
 
     def __call__(self):
         '''
