@@ -5,7 +5,7 @@ from json import dumps, JSONEncoder
 from plone import api
 from plone.memoize.view import memoize
 from rg.prenotazioni.adapters.slot import BaseSlot
-from urllib import urlencode
+from rg.prenotazioni.utilities.urls import urlify
 
 
 class SlotAwareEncoder(JSONEncoder):
@@ -48,7 +48,7 @@ class View(BrowserView):
         '''
         params = self.request.form.copy()
         params.pop('booking_date', '')
-        return urlencode(params)
+        return urlify(params=params)
 
     def get_url_lists(self):
         ''' Return the urls for this booking date

@@ -6,7 +6,7 @@ from rg.prenotazioni.browser.prenotazione_add import IAddForm as IBaseForm
 from plone.app.form.validators import null_validator
 from plone.memoize.view import memoize
 from rg.prenotazioni import prenotazioniMessageFactory as _
-from urllib import urlencode
+from rg.prenotazioni.utilities.urls import urlify
 from zope.formlib.form import action, setUpWidgets, FormFields
 from zope.interface import implements
 from zope.schema import TextLine
@@ -90,7 +90,7 @@ class AddForm(BaseForm):
                     value = value.encode('utf8')
                 form[key] = value
         backurl = self.request.form.get('form.backurl', 'http://example.com/')
-        return '%s?%s' % (backurl, urlencode(form))
+        return urlify(backurl, form)
 
     @action(_('action_book', u'Book'), name=u'book')
     def action_book(self, action, data):

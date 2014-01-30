@@ -15,6 +15,8 @@ class PrenotazioniContextState(BaseView):
         the parent's one
         '''
         add_view = self.request.form.get('form.add_view', '')
+        if isinstance(add_view, (list, tuple)) and len(add_view):
+            add_view = add_view[0]
         if not add_view:
             add_view = BaseView.add_view
         return add_view
