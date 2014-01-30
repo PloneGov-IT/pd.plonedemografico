@@ -90,7 +90,7 @@ class AddForm(BaseForm):
                     value = value.encode('utf8')
                 form[key] = value
         backurl = self.request.form.get('form.backurl', 'http://example.com/')
-        return urlify(backurl, form)
+        return urlify(backurl, params=form)
 
     @action(_('action_book', u'Book'), name=u'book')
     def action_book(self, action, data):
