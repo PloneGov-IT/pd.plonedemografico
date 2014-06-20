@@ -26,8 +26,8 @@ setup(name='pd.plonedemografico',
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
-        'Framework :: Plone',
-        'Intended Audience :: Developers',
+          'Framework :: Plone',
+          'Intended Audience :: Developers',
       ],
       keywords='',
       author='RedTurtle Technology',
@@ -38,13 +38,14 @@ setup(name='pd.plonedemografico',
       namespace_packages=['pd', ],
       include_package_data=True,
       zip_safe=False,
-      install_requires=['setuptools',
-                        # -*- Extra requirements: -*-
-                        'pd.contentrules.sms',
-                        'plone.api',
-                        'pd.prenotazioni',
-                        'z3c.pdftemplate'
-                        ],
+      install_requires=[
+          'setuptools',
+          # -*- Extra requirements: -*-
+          'pd.contentrules.sms',
+          'plone.api',
+          'pd.prenotazioni',
+          'z3c.pdftemplate'
+      ],
       tests_require=tests_require,
       extras_require=dict(test=tests_require),
       test_suite='pd.plonedemografico.tests.test_docs.test_suite',
