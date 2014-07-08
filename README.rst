@@ -85,7 +85,7 @@ Developed with the support of `Comune di Padova`__.
 
 Comune di Padova supports the `PloneGov initiative`__.
 
-.. image:: http://prenotazioni.comune.padova.it/++resource++pd.plonetheme.images/title.png
+.. image:: https://raw.githubusercontent.com/PloneGov-IT/pd.prenotazioni/master/docs/logo-comune-pd-150x200.jpg
    :alt: Comune di Padova's logo
 
 __ http://www.padovanet.it/
@@ -100,4 +100,3 @@ This product was developed by RedTurtle Technology team.
 .. image:: http://www.redturtle.it/redturtle_banner.png
    :alt: RedTurtle Technology Site
       :target: http://www.redturtle.it/
-
