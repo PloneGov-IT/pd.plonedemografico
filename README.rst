@@ -22,24 +22,6 @@ prenotazione_add_ro
 This is a form with all fields hidden.
 It is meant to be used to display the data before final submission.
 
-prenotazioni_context_state
---------------------------
-
-Extends the `rg.prenotazioni homonymous view`__ in order to override
-the attribute ``add_view``.
-If a parameter called ``form.add_view`` is passed, it will be used
-as the add form for a booking object.
-
-We use this in combination with an apache rewrite rule that injects in the
-request the parameter with the value ``prenotazioni_add_ro``::
-
-    RewriteCond %{QUERY_STRING} !((.*)form_add_view=(.*))
-    RewriteRule ^/path_to_enable_custom_form/(.*) /notheme/$1?form.add_view=prenotazione_add_ro [QSA]
-
-__ https://github.com/PloneGov-IT/rg.prenotazioni/blob/master/rg/prenotazioni/browser/prenotazioni_context_state.py#L59
-
-
-
 slots.json
 ----------
 
