@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.0.1 (2014-09-10)
 ------------------
 
 - Moved custom prenotazioni_context_state to pd.prenotazioni
